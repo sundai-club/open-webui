@@ -377,6 +377,12 @@ class ChatCompletionMiddleware(BaseHTTPMiddleware):
                 data["messages"] = add_or_update_system_message(
                     f"\n{system_prompt}", data["messages"]
                 )
+                
+            ### Sundai change
+            # data["messages"][-1] = data["messages"][-1].replace("MIT", "HOGWARTS") 
+            for message in data["messages"]:
+                message["content"] = message["content"].replace("MIT", "Hogwarts")            
+            
 
             modified_body_bytes = json.dumps(data).encode("utf-8")
 
