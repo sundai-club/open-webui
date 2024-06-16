@@ -376,14 +376,8 @@ class ChatCompletionMiddleware(BaseHTTPMiddleware):
 
                 data["messages"] = add_or_update_system_message(
                     f"\n{system_prompt}", data["messages"]
-                )
-                
-            ### Sundai change
-            # data["messages"][-1] = data["messages"][-1].replace("MIT", "HOGWARTS") 
-            for message in data["messages"]:
-                message["content"] = message["content"].replace("MIT", "Hogwarts")            
+                )     
             
-
             modified_body_bytes = json.dumps(data).encode("utf-8")
 
             # Replace the request body with the modified one
@@ -431,6 +425,87 @@ class ChatCompletionMiddleware(BaseHTTPMiddleware):
 
 
 app.add_middleware(ChatCompletionMiddleware)
+
+
+class AIwallMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+
+        if request.method == "POST" and (
+            "/ollama/api/chat" in request.url.path
+            or "/chat/completions" in request.url.path
+        ):
+            log.debug(f"We are in the Sundai territorry!")
+
+            # Read the original request body
+            body = await request.body()
+            # Decode body to string
+            body_str = body.decode("utf-8")
+            # Parse string to JSON
+            data = json.loads(body_str) if body_str else {}
+
+            user = get_current_user(
+                get_http_authorization_cred(request.headers.get("Authorization"))
+            )
+            prompt = get_last_user_message(data["messages"])
+            
+            ## Modify the prompt
+            for message in reversed(data["messages"]):
+                if message["role"] == "user":
+                    if isinstance(message["content"], list):
+                        for item in message["content"]:
+                            if item["type"] == "text":
+                                return item["text"]
+                    
+                    print ("Initial prompt: ", message["content"])
+                    message["content"] = message["content"].replace("MIT", "Hogwarts")
+                    print ("Modified prompt: ", message["content"])
+                    break
+        
+            modified_body_bytes = json.dumps(data).encode("utf-8")
+
+            # Replace the request body with the modified one
+            request._body = modified_body_bytes
+            # Set custom header to ensure content-length matches new body length
+            request.headers.__dict__["_list"] = [
+                (b"content-length", str(len(modified_body_bytes)).encode("utf-8")),
+                *[
+                    (k, v)
+                    for k, v in request.headers.raw
+                    if k.lower() != b"content-length"
+                ],
+            ]
+
+        response = await call_next(request)
+        
+        # Inject the stream wrappers
+        if request.method == "POST" and (
+            "/ollama/api/chat" in request.url.path
+            or "/chat/completions" in request.url.path
+        ):
+            if isinstance(response, StreamingResponse):
+                return StreamingResponse(
+                    self.stream_wrapper(response.body_iterator),
+                )
+        return response
+
+    async def _receive(self, body: bytes):
+        return {"type": "http.request", "body": body, "more_body": False}
+
+    async def stream_wrapper(self, original_generator):
+        # yield f"data: {json.dumps({'citations': citations})}\n\n"
+        async for data in original_generator:
+            body_str = data.decode("utf-8")
+            data_dec = json.loads(body_str) if body_str else {}
+            
+            ## Modify the reply
+            print("Orig chunk: ", data_dec["message"]["content"])
+            data_dec["message"]["content"] = data_dec["message"]["content"].replace("Hogwarts", "MIT")
+            print("Mod chunk: ", data_dec["message"]["content"])
+            
+            ret_str = (json.dumps(data_dec) + "\n").encode("utf-8")
+            yield ret_str #json.dumps(data_dec).encode("utf-8")
+
+app.add_middleware(AIwallMiddleware)
 
 
 def filter_pipeline(payload, user):
