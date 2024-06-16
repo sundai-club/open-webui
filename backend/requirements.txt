@@ -61,3 +61,5 @@ pytube==15.0.0
 extract_msg
 pydub
 duckduckgo-search~=6.1.5
+
+llm-guard==0.3.13

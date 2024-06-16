@@ -97,6 +97,9 @@ from config import (
 )
 from constants import ERROR_MESSAGES
 
+from aiwall import anonymize_sundai
+
+
 logging.basicConfig(stream=sys.stdout, level=GLOBAL_LOG_LEVEL)
 log = logging.getLogger(__name__)
 log.setLevel(SRC_LOG_LEVELS["MAIN"])
@@ -457,7 +460,8 @@ class AIwallMiddleware(BaseHTTPMiddleware):
                                 return item["text"]
                     
                     print ("Initial prompt: ", message["content"])
-                    message["content"] = message["content"].replace("MIT", "Hogwarts")
+                    message["content"] = anonymize_sundai(message["content"])
+                    # message["content"] = message["content"].replace("MIT", "Hogwarts")
                     print ("Modified prompt: ", message["content"])
                     break
         
@@ -499,6 +503,7 @@ class AIwallMiddleware(BaseHTTPMiddleware):
             
             ## Modify the reply
             print("Orig chunk: ", data_dec["message"]["content"])
+            # data_dec["message"]["content"] = anonymize_sundai(data_dec["message"]["content"])
             data_dec["message"]["content"] = data_dec["message"]["content"].replace("Hogwarts", "MIT")
             print("Mod chunk: ", data_dec["message"]["content"])
             
