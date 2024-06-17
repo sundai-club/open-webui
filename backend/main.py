@@ -97,7 +97,7 @@ from config import (
 )
 from constants import ERROR_MESSAGES
 
-from aiwall import anonymize_sundai
+from aiwall import AIwallHelper
 
 
 logging.basicConfig(stream=sys.stdout, level=GLOBAL_LOG_LEVEL)
@@ -430,7 +430,13 @@ class ChatCompletionMiddleware(BaseHTTPMiddleware):
 app.add_middleware(ChatCompletionMiddleware)
 
 
+
 class AIwallMiddleware(BaseHTTPMiddleware):
+    def __init__(self, app, a=5):
+        super().__init__(app)
+        self.aiwallhelper = AIwallHelper()
+        
+            
     async def dispatch(self, request: Request, call_next):
 
         if request.method == "POST" and (
@@ -460,7 +466,7 @@ class AIwallMiddleware(BaseHTTPMiddleware):
                                 return item["text"]
                     
                     print ("Initial prompt: ", message["content"])
-                    message["content"] = anonymize_sundai(message["content"])
+                    message["content"] = self.aiwallhelper.anonymize(message["content"])
                     # message["content"] = message["content"].replace("MIT", "Hogwarts")
                     print ("Modified prompt: ", message["content"])
                     break
