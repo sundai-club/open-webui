@@ -109,15 +109,18 @@ class AIwallHelper:
 if __name__ == '__main__':
     # Usage
     helper = AIwallHelper()
-    from IPython import embed; embed()
+    from IPython import embed; embed()    
 
+
+    ### ANONIMIZE KEY FAIL & SUCCESS CASES to fix 
     # fails to locate street and town
     anonymized_prompt = helper.anonymize("Your input string here: my location is 32 vernon street, brookline MA")
     print(anonymized_prompt)
-
     # succeeds to locate street and town 
     anonymized_prompt = helper.anonymize("Your input string here: my location is 32 Vernon Street, Brookline MA")
     print(anonymized_prompt)
+
+    ### DEANONIMIZE KEY FAIL & SUCCESS CASES to fix 
     # works 
     deanonymized_output = helper.deanonymize(anonymized_prompt, "Your answer string here: [REDACTED_LOCATION_1] and then [REDACTED_LOCATION_2]")
     # doesn't work 

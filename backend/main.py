@@ -502,19 +502,21 @@ class AIwallMiddleware(BaseHTTPMiddleware):
         return {"type": "http.request", "body": body, "more_body": False}
 
     async def stream_wrapper(self, original_generator):
-        # yield f"data: {json.dumps({'citations': citations})}\n\n"
         async for data in original_generator:
-            body_str = data.decode("utf-8")
-            data_dec = json.loads(body_str) if body_str else {}
+            yield data        
+        # yield f"data: {json.dumps({'citations': citations})}\n\n"
+        # async for data in original_generator:
+        #     body_str = data.decode("utf-8")
+        #     data_dec = json.loads(body_str) if body_str else {}
             
-            ## Modify the reply
-            print("Orig chunk: ", data_dec["message"]["content"])
-            # data_dec["message"]["content"] = anonymize_sundai(data_dec["message"]["content"])
-            data_dec["message"]["content"] = data_dec["message"]["content"].replace("Hogwarts", "MIT")
-            print("Mod chunk: ", data_dec["message"]["content"])
+        #     ## Modify the reply
+        #     print("Orig chunk: ", data_dec["message"]["content"])
+        #     # data_dec["message"]["content"] = anonymize_sundai(data_dec["message"]["content"])
+        #     data_dec["message"]["content"] = data_dec["message"]["content"].replace("Hogwarts", "MIT")
+        #     print("Mod chunk: ", data_dec["message"]["content"])
             
-            ret_str = (json.dumps(data_dec) + "\n").encode("utf-8")
-            yield ret_str #json.dumps(data_dec).encode("utf-8")
+        #     ret_str = (json.dumps(data_dec) + "\n").encode("utf-8")
+        #     yield ret_str #json.dumps(data_dec).encode("utf-8")
 
 app.add_middleware(AIwallMiddleware)
 
