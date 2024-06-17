@@ -310,6 +310,9 @@ async def get_admin_config(request: Request, user=Depends(get_admin_user)):
     return {
         "SHOW_ADMIN_DETAILS": request.app.state.config.SHOW_ADMIN_DETAILS,
         "ENABLE_SIGNUP": request.app.state.config.ENABLE_SIGNUP,
+        "MASK_NAME": request.app.state.config.MASK_NAME,
+        "MASK_LOCATION": request.app.state.config.MASK_LOCATION,
+        "MASK_COMPANY": request.app.state.config.MASK_COMPANY,
         "DEFAULT_USER_ROLE": request.app.state.config.DEFAULT_USER_ROLE,
         "JWT_EXPIRES_IN": request.app.state.config.JWT_EXPIRES_IN,
         "ENABLE_COMMUNITY_SHARING": request.app.state.config.ENABLE_COMMUNITY_SHARING,
@@ -322,6 +325,9 @@ class AdminConfig(BaseModel):
     DEFAULT_USER_ROLE: str
     JWT_EXPIRES_IN: str
     ENABLE_COMMUNITY_SHARING: bool
+    MASK_LOCATION : bool
+    MASK_NAME : bool
+    MASK_COMPANY : bool
 
 
 @router.post("/admin/config")
@@ -330,6 +336,9 @@ async def update_admin_config(
 ):
     request.app.state.config.SHOW_ADMIN_DETAILS = form_data.SHOW_ADMIN_DETAILS
     request.app.state.config.ENABLE_SIGNUP = form_data.ENABLE_SIGNUP
+    request.app.state.config.MASK_COMPANY = form_data.MASK_COMPANY
+    request.app.state.config.MASK_LOCATION = form_data.MASK_LOCATION
+    request.app.state.config.MASK_NAME = form_data.MASK_NAME
 
     if form_data.DEFAULT_USER_ROLE in ["pending", "user", "admin"]:
         request.app.state.config.DEFAULT_USER_ROLE = form_data.DEFAULT_USER_ROLE

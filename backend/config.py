@@ -510,6 +510,36 @@ OPENAI_API_BASE_URL = "https://api.openai.com/v1"
 # WEBUI
 ####################################
 
+MASK_LOCATION = PersistentConfig(
+    "MASK_LOCATION",
+    "ui.mask_location",
+    (
+        False
+        if not WEBUI_AUTH
+        else os.environ.get("MASK_LOCATION", "True").lower() == "true"
+    ),
+)
+
+MASK_NAME = PersistentConfig(
+    "MASK_NAME",
+    "ui.mask_name",
+    (
+        False
+        if not WEBUI_AUTH
+        else os.environ.get("MASK_NAME", "True").lower() == "true"
+    ),
+)
+
+MASK_COMPANY = PersistentConfig(
+    "MASK_COMPANY",
+    "ui.mask_company",
+    (
+        False
+        if not WEBUI_AUTH
+        else os.environ.get("MASK_COMPANY", "True").lower() == "true"
+    ),
+)
+
 ENABLE_SIGNUP = PersistentConfig(
     "ENABLE_SIGNUP",
     "ui.enable_signup",

@@ -22,6 +22,9 @@ from config import (
     DEFAULT_PROMPT_SUGGESTIONS,
     DEFAULT_USER_ROLE,
     ENABLE_SIGNUP,
+    MASK_LOCATION,
+    MASK_COMPANY,
+    MASK_NAME,
     USER_PERMISSIONS,
     WEBHOOK_URL,
     WEBUI_AUTH_TRUSTED_EMAIL_HEADER,
@@ -36,6 +39,10 @@ app = FastAPI()
 origins = ["*"]
 
 app.state.config = AppConfig()
+
+app.state.config.MASK_COMPANY = MASK_COMPANY
+app.state.config.MASK_NAME = MASK_NAME
+app.state.config.MASK_LOCATION = MASK_LOCATION
 
 app.state.config.ENABLE_SIGNUP = ENABLE_SIGNUP
 app.state.config.JWT_EXPIRES_IN = JWT_EXPIRES_IN

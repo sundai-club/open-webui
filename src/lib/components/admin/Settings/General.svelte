@@ -37,16 +37,17 @@
 	};
 
 	onMount(async () => {
-		await Promise.all([
-			(async () => {
-				adminConfig = await getAdminConfig(localStorage.token);
-			})(),
+	await Promise.all([
+		(async () => {
+			adminConfig = await getAdminConfig(localStorage.token);
+		})(),
 
-			(async () => {
-				webhookUrl = await getWebhookUrl(localStorage.token);
-			})()
-		]);
-	});
+		(async () => {
+			webhookUrl = await getWebhookUrl(localStorage.token);
+		})()
+	]);
+});
+	
 </script>
 
 <form
@@ -59,8 +60,24 @@
 	<div class=" space-y-3 overflow-y-scroll scrollbar-hidden h-full">
 		{#if adminConfig !== null}
 			<div>
-				<div class=" mb-3 text-sm font-medium">{$i18n.t('General Settings')}</div>
+				<div class=" mb-3 text-sm font-medium">{$i18n.t('Mask Settings')}</div>
+				<div class="  flex w-full justify-between pr-2">
+					<div class=" self-center text-xs font-medium">{$i18n.t('Mask Name?')}</div>
+		
+					<Switch bind:state={adminConfig.MASK_NAME} />
+				</div>
+				<div class="  flex w-full justify-between pr-2">
+					<div class=" self-center text-xs font-medium">{$i18n.t('Mask Company?')}</div>
+		
+					<Switch bind:state={adminConfig.MASK_COMPANY} />
+				</div>
+				<div class="  flex w-full justify-between pr-2">
+					<div class=" self-center text-xs font-medium">{$i18n.t('Mask Location?')}</div>
+		
+					<Switch bind:state={adminConfig.MASK_LOCATION} />
+				</div>
 
+				<div class=" mb-3 text-sm font-medium">{$i18n.t('General Settings')}</div>
 				<div class="  flex w-full justify-between pr-2">
 					<div class=" self-center text-xs font-medium">{$i18n.t('Enable New Sign Ups')}</div>
 
