@@ -141,8 +141,64 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     docs_url="/docs" if ENV == "dev" else None, redoc_url=None, lifespan=lifespan
 )
+from config import (
+    WEBUI_BUILD_HASH,
+    SHOW_ADMIN_DETAILS,
+    ADMIN_EMAIL,
+    WEBUI_AUTH,
+    DEFAULT_MODELS,
+    DEFAULT_PROMPT_SUGGESTIONS,
+    DEFAULT_USER_ROLE,
+    ENABLE_SIGNUP,
+    MASK_LOCATION,
+    MASK_COMPANY,
+    MASK_NAME,
+    MASK_CREDIT_CARD,
+    MASK_CRYPTO,
+    MASK_EMAIL_ADDRESS,
+    MASK_IBAN_CODE,
+    MASK_IP_ADDRESS,
+    MASK_PERSON,
+    MASK_PHONE_NUMBER,
+    MASK_US_SSN,
+    MASK_US_BANK_NUMBER,
+    MASK_CREDIT_CARD_RE,
+    MASK_UUID,
+    MASK_EMAIL_ADDRESS_RE,
+    MASK_US_SSN_RE,
+    MASK_URL,
+    USER_PERMISSIONS,
+    WEBHOOK_URL,
+    WEBUI_AUTH_TRUSTED_EMAIL_HEADER,
+    JWT_EXPIRES_IN,
+    WEBUI_BANNERS,
+    ENABLE_COMMUNITY_SHARING,
+    AppConfig,
+)
+
+app = FastAPI()
+
+origins = ["*"]
 
 app.state.config = AppConfig()
+
+app.state.config.MASK_COMPANY = MASK_COMPANY
+app.state.config.MASK_NAME = MASK_NAME
+app.state.config.MASK_LOCATION = MASK_LOCATION
+app.state.config.MASK_CREDIT_CARD = MASK_CREDIT_CARD
+app.state.config.MASK_CRYPTO = MASK_CRYPTO
+app.state.config.MASK_EMAIL_ADDRESS = MASK_EMAIL_ADDRESS
+app.state.config.MASK_IBAN_CODE = MASK_IBAN_CODE
+app.state.config.MASK_IP_ADDRESS = MASK_IP_ADDRESS
+app.state.config.MASK_PERSON = MASK_PERSON
+app.state.config.MASK_PHONE_NUMBER = MASK_PHONE_NUMBER
+app.state.config.MASK_US_SSN = MASK_US_SSN
+app.state.config.MASK_US_BANK_NUMBER = MASK_US_BANK_NUMBER
+app.state.config.MASK_CREDIT_CARD_RE = MASK_CREDIT_CARD_RE
+app.state.config.MASK_UUID = MASK_UUID
+app.state.config.MASK_EMAIL_ADDRESS_RE = MASK_EMAIL_ADDRESS_RE
+app.state.config.MASK_US_SSN_RE = MASK_US_SSN_RE
+app.state.config.MASK_URL = MASK_URL
 
 app.state.config.ENABLE_OPENAI_API = ENABLE_OPENAI_API
 app.state.config.ENABLE_OLLAMA_API = ENABLE_OLLAMA_API
@@ -429,15 +485,29 @@ class ChatCompletionMiddleware(BaseHTTPMiddleware):
 
 app.add_middleware(ChatCompletionMiddleware)
 
-
-
 class AIwallMiddleware(BaseHTTPMiddleware):
-    def __init__(self, app, a=5):
+    def __init__(self, app, config, a=5):
         super().__init__(app)
+        self.aiwallhelper = AIwallHelper(config={
+            "LOCATION": config.MASK_LOCATION,
+            "DATE_TIME": False, 
+            "CREDIT_CARD": config.MASK_CREDIT_CARD,
+            "CRYPTO": config.MASK_CRYPTO,
+            "EMAIL_ADDRESS": config.MASK_EMAIL_ADDRESS,
+            "IBAN_CODE": config.MASK_IBAN_CODE,
+            "IP_ADDRESS": config.MASK_IP_ADDRESS,
+            "PERSON": config.MASK_PERSON,
+            "PHONE_NUMBER": config.MASK_PHONE_NUMBER,
+            "US_SSN": config.MASK_US_SSN,
+            "US_BANK_NUMBER": config.MASK_US_BANK_NUMBER,
+            "CREDIT_CARD_RE": config.MASK_CREDIT_CARD_RE,
+            "UUID": config.MASK_UUID,
+            "EMAIL_ADDRESS_RE": config.MASK_EMAIL_ADDRESS_RE,
+            "US_SSN_RE": config.MASK_US_SSN_RE,
+            "URL": config.MASK_URL,
+            "ORGANIZATION": config.MASK_COMPANY
+        })
         
-        self.aiwallhelper = AIwallHelper(app.state.config)
-        
-            
     async def dispatch(self, request: Request, call_next):
 
         if request.method == "POST" and (
@@ -519,7 +589,7 @@ class AIwallMiddleware(BaseHTTPMiddleware):
         #     ret_str = (json.dumps(data_dec) + "\n").encode("utf-8")
         #     yield ret_str #json.dumps(data_dec).encode("utf-8")
 
-app.add_middleware(AIwallMiddleware)
+app.add_middleware(AIwallMiddleware, config=app.state.config)
 
 
 def filter_pipeline(payload, user):

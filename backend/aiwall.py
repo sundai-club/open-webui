@@ -8,34 +8,65 @@ from config import PersistentConfig
 
 
 class AIwallHelper:
-    def __init__(self):
+    def __init__(self, config):
         self.vault = Vault()
-        self.config = dict[str, PersistentConfig]
-        self.entities = {
-                    "LOCATION":self.config.location,
-                    "DATE_TIME":False,
-                    "CREDIT_CARD":False,
-                    "CRYPTO":False,
-                    "EMAIL_ADDRESS":False,
-                    "IBAN_CODE":False,
-                    "IP_ADDRESS":False,
-                    "PERSON":self.config.location,
-                    "PHONE_NUMBER":False,
-                    "US_SSN":False,
-                    "US_BANK_NUMBER":False,
-                    "CREDIT_CARD_RE":False,
-                    "UUID":False,
-                    "EMAIL_ADDRESS_RE":False,
-                    "US_SSN_RE":False,
-                    "URL":False,
-                    "ORGANIZATION":self.config.location
-                    }
-        self.anonymize = self.Anonymize(self.vault)
+        self.config = config
+        print("/n/n CONFIG!")
+        print(config)
+        attributes = dir(config)
+        # Filter out special methods and callables, and print each field
+        for attr in attributes:
+            if not attr.startswith("__") and not callable(getattr(config, attr)):
+                value = getattr(config, attr)
+                print(f"{attr}: {value}")
+        print("MORE STUFF!!!!")
+        # self.entities = {
+        #     "LOCATION": self.config.MASK_LOCATION,
+        #     "DATE_TIME": False,
+        #     "CREDIT_CARD": self.config.MASK_CREDIT_CARD,
+        #     "CRYPTO": self.config.MASK_CRYPTO,
+        #     "EMAIL_ADDRESS": self.config.MASK_EMAIL_ADDRESS,
+        #     "IBAN_CODE": self.config.MASK_IBAN_CODE,
+        #     "IP_ADDRESS": self.config.MASK_IP_ADDRESS,
+        #     "PERSON": self.config.MASK_PERSON,
+        #     "PHONE_NUMBER": self.config.MASK_PHONE_NUMBER,
+        #     "US_SSN": self.config.MASK_US_SSN,
+        #     "US_BANK_NUMBER": self.config.MASK_US_BANK_NUMBER,
+        #     "CREDIT_CARD_RE": self.config.MASK_CREDIT_CARD_RE,
+        #     "UUID": self.config.MASK_UUID,
+        #     "EMAIL_ADDRESS_RE": self.config.MASK_EMAIL_ADDRESS_RE,
+        #     "US_SSN_RE": self.config.MASK_US_SSN_RE,
+        #     "URL": self.config.MASK_URL,
+        #     "ORGANIZATION": self.config.MASK_COMPANY
+        # }
+        self.anonymize = self.Anonymize(vault=self.vault, config=self.config)
         self.deanonymize = self.Deanonymize(self.vault)
 
     class Anonymize:
-        def __init__(self, vault):
+        def __init__(self, vault, config):
             self.vault = vault
+            self.config = config
+
+        #     entities = {
+        #     "LOCATION": self.config.MASK_LOCATION if self.config.MASK_LOCATION is not None else True,
+        #     "DATE_TIME": False,
+        #     "CREDIT_CARD": self.config.MASK_CREDIT_CARD,
+        #     "CRYPTO": self.config.MASK_CRYPTO,
+        #     "EMAIL_ADDRESS": self.config.MASK_EMAIL_ADDRESS,
+        #     "IBAN_CODE": self.config.MASK_IBAN_CODE,
+        #     "IP_ADDRESS": self.config.MASK_IP_ADDRESS,
+        #     "PERSON": self.config.MASK_PERSON,
+        #     "PHONE_NUMBER": self.config.MASK_PHONE_NUMBER,
+        #     "US_SSN": self.config.MASK_US_SSN,
+        #     "US_BANK_NUMBER": self.config.MASK_US_BANK_NUMBER,
+        #     "CREDIT_CARD_RE": self.config.MASK_CREDIT_CARD_RE,
+        #     "UUID": self.config.MASK_UUID,
+        #     "EMAIL_ADDRESS_RE": self.config.MASK_EMAIL_ADDRESS_RE,
+        #     "US_SSN_RE": self.config.MASK_US_SSN_RE,
+        #     "URL": self.config.MASK_URL,
+        #     "ORGANIZATION": self.config.MASK_COMPANY
+        # }
+            print("/n IN anon/n")
 
             NER_CONF = {
                 "PRESIDIO_SUPPORTED_ENTITIES": [
