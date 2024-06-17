@@ -1,13 +1,7 @@
+# A CLEAR FAIL CASE IS WHEN NAME OR ADDRESS IS NOT IN CAPS! HOW DO WE FIX THIS ?
 
 from aiwall import AIwallHelper
 
-# import logging
-
-# # Configure logging
-# logging.getLogger("llm_guard").setLevel(logging.ERROR)
-
-# # Or you can completely disable logging for llm_guard
-# logging.getLogger("llm_guard").disabled = True
 
 if __name__=='__main__':
     import unittest
