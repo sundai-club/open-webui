@@ -315,6 +315,20 @@ async def get_admin_config(request: Request, user=Depends(get_admin_user)):
         "MASK_NAME": request.app.state.config.MASK_NAME,
         "MASK_LOCATION": request.app.state.config.MASK_LOCATION,
         "MASK_COMPANY": request.app.state.config.MASK_COMPANY,
+        "MASK_CREDIT_CARD": request.app.state.config.MASK_CREDIT_CARD,
+        "MASK_CRYPTO": request.app.state.config.MASK_CRYPTO,
+        "MASK_EMAIL_ADDRESS": request.app.state.config.MASK_EMAIL_ADDRESS,
+        "MASK_IBAN_CODE": request.app.state.config.MASK_IBAN_CODE,
+        "MASK_IP_ADDRESS": request.app.state.config.MASK_IP_ADDRESS,
+        "MASK_PERSON": request.app.state.config.MASK_PERSON,
+        "MASK_PHONE_NUMBER": request.app.state.config.MASK_PHONE_NUMBER,
+        "MASK_US_SSN": request.app.state.config.MASK_US_SSN,
+        "MASK_US_BANK_NUMBER": request.app.state.config.MASK_US_BANK_NUMBER,
+        "MASK_CREDIT_CARD_RE": request.app.state.config.MASK_CREDIT_CARD_RE,
+        "MASK_UUID": request.app.state.config.MASK_UUID,
+        "MASK_EMAIL_ADDRESS_RE": request.app.state.config.MASK_EMAIL_ADDRESS_RE,
+        "MASK_US_SSN_RE": request.app.state.config.MASK_US_SSN_RE,
+        "MASK_URL": request.app.state.config.MASK_URL,
         "DEFAULT_USER_ROLE": request.app.state.config.DEFAULT_USER_ROLE,
         "JWT_EXPIRES_IN": request.app.state.config.JWT_EXPIRES_IN,
         "ENABLE_COMMUNITY_SHARING": request.app.state.config.ENABLE_COMMUNITY_SHARING,
@@ -327,9 +341,23 @@ class AdminConfig(BaseModel):
     DEFAULT_USER_ROLE: str
     JWT_EXPIRES_IN: str
     ENABLE_COMMUNITY_SHARING: bool
-    MASK_LOCATION : bool
-    MASK_NAME : bool
-    MASK_COMPANY : bool
+    MASK_LOCATION: bool
+    MASK_NAME: bool
+    MASK_COMPANY: bool
+    MASK_CREDIT_CARD: bool
+    MASK_CRYPTO: bool
+    MASK_EMAIL_ADDRESS: bool
+    MASK_IBAN_CODE: bool
+    MASK_IP_ADDRESS: bool
+    MASK_PERSON: bool
+    MASK_PHONE_NUMBER: bool
+    MASK_US_SSN: bool
+    MASK_US_BANK_NUMBER: bool
+    MASK_CREDIT_CARD_RE: bool
+    MASK_UUID: bool
+    MASK_EMAIL_ADDRESS_RE: bool
+    MASK_US_SSN_RE: bool
+    MASK_URL: bool
 
 
 @router.post("/admin/config")
@@ -343,6 +371,20 @@ async def update_admin_config(
     request.app.state.config.MASK_COMPANY = form_data.MASK_COMPANY
     request.app.state.config.MASK_LOCATION = form_data.MASK_LOCATION
     request.app.state.config.MASK_NAME = form_data.MASK_NAME
+    request.app.state.config.MASK_CREDIT_CARD = form_data.MASK_CREDIT_CARD
+    request.app.state.config.MASK_CRYPTO = form_data.MASK_CRYPTO
+    request.app.state.config.MASK_EMAIL_ADDRESS = form_data.MASK_EMAIL_ADDRESS
+    request.app.state.config.MASK_IBAN_CODE = form_data.MASK_IBAN_CODE
+    request.app.state.config.MASK_IP_ADDRESS = form_data.MASK_IP_ADDRESS
+    request.app.state.config.MASK_PERSON = form_data.MASK_PERSON
+    request.app.state.config.MASK_PHONE_NUMBER = form_data.MASK_PHONE_NUMBER
+    request.app.state.config.MASK_US_SSN = form_data.MASK_US_SSN
+    request.app.state.config.MASK_US_BANK_NUMBER = form_data.MASK_US_BANK_NUMBER
+    request.app.state.config.MASK_CREDIT_CARD_RE = form_data.MASK_CREDIT_CARD_RE
+    request.app.state.config.MASK_UUID = form_data.MASK_UUID
+    request.app.state.config.MASK_EMAIL_ADDRESS_RE = form_data.MASK_EMAIL_ADDRESS_RE
+    request.app.state.config.MASK_US_SSN_RE = form_data.MASK_US_SSN_RE
+    request.app.state.config.MASK_URL = form_data.MASK_URL
 
     if form_data.DEFAULT_USER_ROLE in ["pending", "user", "admin"]:
         request.app.state.config.DEFAULT_USER_ROLE = form_data.DEFAULT_USER_ROLE

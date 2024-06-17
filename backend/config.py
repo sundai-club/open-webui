@@ -540,6 +540,147 @@ MASK_COMPANY = PersistentConfig(
     ),
 )
 
+MASK_CREDIT_CARD = PersistentConfig(
+    "MASK_CREDIT_CARD",
+    "ui.mask_credit_card",
+    (
+        False
+        if not WEBUI_AUTH
+        else os.environ.get("MASK_CREDIT_CARD", "True").lower() == "true"
+    ),
+)
+
+MASK_CRYPTO = PersistentConfig(
+    "MASK_CRYPTO",
+    "ui.mask_crypto",
+    (
+        False
+        if not WEBUI_AUTH
+        else os.environ.get("MASK_CRYPTO", "True").lower() == "true"
+    ),
+)
+
+MASK_EMAIL_ADDRESS = PersistentConfig(
+    "MASK_EMAIL_ADDRESS",
+    "ui.mask_email_address",
+    (
+        False
+        if not WEBUI_AUTH
+        else os.environ.get("MASK_EMAIL_ADDRESS", "True").lower() == "true"
+    ),
+)
+
+MASK_IBAN_CODE = PersistentConfig(
+    "MASK_IBAN_CODE",
+    "ui.mask_iban_code",
+    (
+        False
+        if not WEBUI_AUTH
+        else os.environ.get("MASK_IBAN_CODE", "True").lower() == "true"
+    ),
+)
+
+MASK_IP_ADDRESS = PersistentConfig(
+    "MASK_IP_ADDRESS",
+    "ui.mask_ip_address",
+    (
+        False
+        if not WEBUI_AUTH
+        else os.environ.get("MASK_IP_ADDRESS", "True").lower() == "true"
+    ),
+)
+
+MASK_PERSON = PersistentConfig(
+    "MASK_PERSON",
+    "ui.mask_person",
+    (
+        False
+        if not WEBUI_AUTH
+        else os.environ.get("MASK_PERSON", "True").lower() == "true"
+    ),
+)
+
+MASK_PHONE_NUMBER = PersistentConfig(
+    "MASK_PHONE_NUMBER",
+    "ui.mask_phone_number",
+    (
+        False
+        if not WEBUI_AUTH
+        else os.environ.get("MASK_PHONE_NUMBER", "True").lower() == "true"
+    ),
+)
+
+MASK_US_SSN = PersistentConfig(
+    "MASK_US_SSN",
+    "ui.mask_us_ssn",
+    (
+        False
+        if not WEBUI_AUTH
+        else os.environ.get("MASK_US_SSN", "True").lower() == "true"
+    ),
+)
+
+MASK_US_BANK_NUMBER = PersistentConfig(
+    "MASK_US_BANK_NUMBER",
+    "ui.mask_us_bank_number",
+    (
+        False
+        if not WEBUI_AUTH
+        else os.environ.get("MASK_US_BANK_NUMBER", "True").lower() == "true"
+    ),
+)
+
+MASK_CREDIT_CARD_RE = PersistentConfig(
+    "MASK_CREDIT_CARD_RE",
+    "ui.mask_credit_card_re",
+    (
+        False
+        if not WEBUI_AUTH
+        else os.environ.get("MASK_CREDIT_CARD_RE", "True").lower() == "true"
+    ),
+)
+
+MASK_UUID = PersistentConfig(
+    "MASK_UUID",
+    "ui.mask_uuid",
+    (
+        False
+        if not WEBUI_AUTH
+        else os.environ.get("MASK_UUID", "True").lower() == "true"
+    ),
+)
+
+MASK_EMAIL_ADDRESS_RE = PersistentConfig(
+    "MASK_EMAIL_ADDRESS_RE",
+    "ui.mask_email_address_re",
+    (
+        False
+        if not WEBUI_AUTH
+        else os.environ.get("MASK_EMAIL_ADDRESS_RE", "True").lower() == "true"
+    ),
+)
+
+MASK_US_SSN_RE = PersistentConfig(
+    "MASK_US_SSN_RE",
+    "ui.mask_us_ssn_re",
+    (
+        False
+        if not WEBUI_AUTH
+        else os.environ.get("MASK_US_SSN_RE", "True").lower() == "true"
+    ),
+)
+
+MASK_URL = PersistentConfig(
+    "MASK_URL",
+    "ui.mask_url",
+    (
+        False
+        if not WEBUI_AUTH
+        else os.environ.get("MASK_URL", "True").lower() == "true"
+    ),
+)
+
+
 ENABLE_SIGNUP = PersistentConfig(
     "ENABLE_SIGNUP",
     "ui.enable_signup",

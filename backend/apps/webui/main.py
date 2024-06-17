@@ -25,6 +25,20 @@ from config import (
     MASK_LOCATION,
     MASK_COMPANY,
     MASK_NAME,
+    MASK_CREDIT_CARD,
+    MASK_CRYPTO,
+    MASK_EMAIL_ADDRESS,
+    MASK_IBAN_CODE,
+    MASK_IP_ADDRESS,
+    MASK_PERSON,
+    MASK_PHONE_NUMBER,
+    MASK_US_SSN,
+    MASK_US_BANK_NUMBER,
+    MASK_CREDIT_CARD_RE,
+    MASK_UUID,
+    MASK_EMAIL_ADDRESS_RE,
+    MASK_US_SSN_RE,
+    MASK_URL,
     USER_PERMISSIONS,
     WEBHOOK_URL,
     WEBUI_AUTH_TRUSTED_EMAIL_HEADER,
@@ -43,6 +57,20 @@ app.state.config = AppConfig()
 app.state.config.MASK_COMPANY = MASK_COMPANY
 app.state.config.MASK_NAME = MASK_NAME
 app.state.config.MASK_LOCATION = MASK_LOCATION
+app.state.config.MASK_CREDIT_CARD = MASK_CREDIT_CARD
+app.state.config.MASK_CRYPTO = MASK_CRYPTO
+app.state.config.MASK_EMAIL_ADDRESS = MASK_EMAIL_ADDRESS
+app.state.config.MASK_IBAN_CODE = MASK_IBAN_CODE
+app.state.config.MASK_IP_ADDRESS = MASK_IP_ADDRESS
+app.state.config.MASK_PERSON = MASK_PERSON
+app.state.config.MASK_PHONE_NUMBER = MASK_PHONE_NUMBER
+app.state.config.MASK_US_SSN = MASK_US_SSN
+app.state.config.MASK_US_BANK_NUMBER = MASK_US_BANK_NUMBER
+app.state.config.MASK_CREDIT_CARD_RE = MASK_CREDIT_CARD_RE
+app.state.config.MASK_UUID = MASK_UUID
+app.state.config.MASK_EMAIL_ADDRESS_RE = MASK_EMAIL_ADDRESS_RE
+app.state.config.MASK_US_SSN_RE = MASK_US_SSN_RE
+app.state.config.MASK_URL = MASK_URL
 
 app.state.config.ENABLE_SIGNUP = ENABLE_SIGNUP
 app.state.config.JWT_EXPIRES_IN = JWT_EXPIRES_IN
