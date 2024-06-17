@@ -434,7 +434,8 @@ app.add_middleware(ChatCompletionMiddleware)
 class AIwallMiddleware(BaseHTTPMiddleware):
     def __init__(self, app, a=5):
         super().__init__(app)
-        self.aiwallhelper = AIwallHelper()
+        
+        self.aiwallhelper = AIwallHelper(app.state.config)
         
             
     async def dispatch(self, request: Request, call_next):

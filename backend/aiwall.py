@@ -4,10 +4,32 @@ from llm_guard.input_scanners.anonymize_helpers import BERT_LARGE_NER_CONF
 from llm_guard.output_scanners import Deanonymize
 from llm_guard.vault import Vault
 
+from config import PersistentConfig
+
 
 class AIwallHelper:
     def __init__(self):
         self.vault = Vault()
+        self.config = dict[str, PersistentConfig]
+        self.entities = {
+                    "LOCATION":self.config.location,
+                    "DATE_TIME":False,
+                    "CREDIT_CARD":False,
+                    "CRYPTO":False,
+                    "EMAIL_ADDRESS":False,
+                    "IBAN_CODE":False,
+                    "IP_ADDRESS":False,
+                    "PERSON":self.config.location,
+                    "PHONE_NUMBER":False,
+                    "US_SSN":False,
+                    "US_BANK_NUMBER":False,
+                    "CREDIT_CARD_RE":False,
+                    "UUID":False,
+                    "EMAIL_ADDRESS_RE":False,
+                    "US_SSN_RE":False,
+                    "URL":False,
+                    "ORGANIZATION":self.config.location
+                    }
         self.anonymize = self.Anonymize(self.vault)
         self.deanonymize = self.Deanonymize(self.vault)
 

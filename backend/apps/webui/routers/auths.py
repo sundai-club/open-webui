@@ -307,6 +307,8 @@ async def get_admin_details(request: Request, user=Depends(get_current_user)):
 
 @router.get("/admin/config")
 async def get_admin_config(request: Request, user=Depends(get_admin_user)):
+    print("/n Get admin config: /n")
+    print(request)
     return {
         "SHOW_ADMIN_DETAILS": request.app.state.config.SHOW_ADMIN_DETAILS,
         "ENABLE_SIGNUP": request.app.state.config.ENABLE_SIGNUP,
@@ -334,6 +336,8 @@ class AdminConfig(BaseModel):
 async def update_admin_config(
     request: Request, form_data: AdminConfig, user=Depends(get_admin_user)
 ):
+    print("/n Update admin config: /n")
+    print(form_data)
     request.app.state.config.SHOW_ADMIN_DETAILS = form_data.SHOW_ADMIN_DETAILS
     request.app.state.config.ENABLE_SIGNUP = form_data.ENABLE_SIGNUP
     request.app.state.config.MASK_COMPANY = form_data.MASK_COMPANY
