@@ -509,7 +509,6 @@ class AIwallMiddleware(BaseHTTPMiddleware):
         })
         
     async def dispatch(self, request: Request, call_next):
-
         if request.method == "POST" and (
             "/ollama/api/chat" in request.url.path
             or "/chat/completions" in request.url.path
@@ -564,30 +563,14 @@ class AIwallMiddleware(BaseHTTPMiddleware):
             or "/chat/completions" in request.url.path
         ):
             if isinstance(response, StreamingResponse):
+                is_openai_call = "text/event-stream" in response.headers.get("Content-Type")
                 return StreamingResponse(
-                    self.stream_wrapper(response.body_iterator),
+                    self.aiwallhelper.stream_wrapper(response.body_iterator, prompt, is_openai_call),
                 )
         return response
 
     async def _receive(self, body: bytes):
         return {"type": "http.request", "body": body, "more_body": False}
-
-    async def stream_wrapper(self, original_generator):
-        async for data in original_generator:
-            yield data        
-        # yield f"data: {json.dumps({'citations': citations})}\n\n"
-        # async for data in original_generator:
-        #     body_str = data.decode("utf-8")
-        #     data_dec = json.loads(body_str) if body_str else {}
-            
-        #     ## Modify the reply
-        #     print("Orig chunk: ", data_dec["message"]["content"])
-        #     # data_dec["message"]["content"] = anonymize_sundai(data_dec["message"]["content"])
-        #     data_dec["message"]["content"] = data_dec["message"]["content"].replace("Hogwarts", "MIT")
-        #     print("Mod chunk: ", data_dec["message"]["content"])
-            
-        #     ret_str = (json.dumps(data_dec) + "\n").encode("utf-8")
-        #     yield ret_str #json.dumps(data_dec).encode("utf-8")
 
 app.add_middleware(AIwallMiddleware, config=app.state.config)
 
