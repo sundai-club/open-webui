@@ -488,25 +488,7 @@ app.add_middleware(ChatCompletionMiddleware)
 class AIwallMiddleware(BaseHTTPMiddleware):
     def __init__(self, app, config, a=5):
         super().__init__(app)
-        self.aiwallhelper = AIwallHelper(config={
-            "LOCATION": config.MASK_LOCATION,
-            "DATE_TIME": False, 
-            "CREDIT_CARD": config.MASK_CREDIT_CARD,
-            "CRYPTO": config.MASK_CRYPTO,
-            "EMAIL_ADDRESS": config.MASK_EMAIL_ADDRESS,
-            "IBAN_CODE": config.MASK_IBAN_CODE,
-            "IP_ADDRESS": config.MASK_IP_ADDRESS,
-            "PERSON": config.MASK_PERSON,
-            "PHONE_NUMBER": config.MASK_PHONE_NUMBER,
-            "US_SSN": config.MASK_US_SSN,
-            "US_BANK_NUMBER": config.MASK_US_BANK_NUMBER,
-            "CREDIT_CARD_RE": config.MASK_CREDIT_CARD_RE,
-            "UUID": config.MASK_UUID,
-            "EMAIL_ADDRESS_RE": config.MASK_EMAIL_ADDRESS_RE,
-            "US_SSN_RE": config.MASK_US_SSN_RE,
-            "URL": config.MASK_URL,
-            "ORGANIZATION": config.MASK_COMPANY
-        })
+        self.aiwallhelper = AIwallHelper(config=config)
         
     async def dispatch(self, request: Request, call_next):
         if request.method == "POST" and (
