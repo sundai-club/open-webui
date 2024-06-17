@@ -17,23 +17,23 @@ class AIwallHelper:
         else:
             self.config = dict[str, PersistentConfig]
         self.entities = {
-                    "LOCATION":self.config.location,
+                    "LOCATION":self.config.MASK_LOCATION,
                     "DATE_TIME":False,
-                    "CREDIT_CARD":False,
-                    "CRYPTO":False,
-                    "EMAIL_ADDRESS":False,
-                    "IBAN_CODE":False,
-                    "IP_ADDRESS":False,
-                    "PERSON":self.config.location,
-                    "PHONE_NUMBER":False,
-                    "US_SSN":False,
-                    "US_BANK_NUMBER":False,
-                    "CREDIT_CARD_RE":False,
-                    "UUID":False,
-                    "EMAIL_ADDRESS_RE":False,
-                    "US_SSN_RE":False,
-                    "URL":False,
-                    "ORGANIZATION":self.config.location
+                    "CREDIT_CARD":self.config.MASK_CREDIT_CARD,
+                    "CRYPTO":self.config.MASK_CRYPTO,
+                    "EMAIL_ADDRESS":self.config.MASK_EMAIL_ADDRESS,
+                    "IBAN_CODE":self.config.MASK_IBAN_CODE,
+                    "IP_ADDRESS":self.config.MASK_IP_ADDRESS,
+                    "PERSON":self.config.MASK_PERSON,
+                    "PHONE_NUMBER":self.config.MASK_PHONE_NUMBER,
+                    "US_SSN":self.config.MASK_US_SSN,
+                    "US_BANK_NUMBER":self.config.MASK_US_BANK_NUMBER,
+                    "CREDIT_CARD_RE":self.config.MASK_CREDIT_CARD_RE,
+                    "UUID":self.config.MASK_UUID,
+                    "EMAIL_ADDRESS_RE":self.config.MASK_EMAIL_ADDRESS_RE,
+                    "US_SSN_RE":self.config.MASK_US_SSN_RE,
+                    "URL":self.config.MASK_URL,
+                    "ORGANIZATION":self.config.MASK_COMPANY
                     }
         self.entities_list = [key for key, value in self.entities.items() if value]
         self.anonymize = self.Anonymize(self.vault, self.entities_list)
@@ -99,28 +99,28 @@ class AIwallHelper:
 
 class Config:
     # used for  running debug 
-    def __init__(self, location):
-        self.location = location
+    def __init__(self, MASK_LOCATION):
+        self.MASK_LOCATION = MASK_LOCATION
         self.date_time = True
-        self.credit_card = True
-        self.crypto = True
-        self.email_address = True
-        self.iban_code = True
-        self.ip_address = True
-        self.person = True
-        self.phone_number = True
-        self.us_ssn = True
-        self.us_bank_number = True
-        self.credit_card_re = True
-        self.uuid = True
-        self.email_address_re = True
-        self.us_ssn_re = True
-        self.url = True
-        self.organization = True
+        self.MASK_CREDIT_CARD = True
+        self.MASK_CRYPTO = True
+        self.MASK_EMAIL_ADDRESS = True
+        self.MASK_IBAN_CODE = True
+        self.MASK_IP_ADDRESS = True
+        self.MASK_PERSON = True
+        self.MASK_PHONE_NUMBER = True
+        self.MASK_US_SSN = True
+        self.MASK_US_BANK_NUMBER = True
+        self.MASK_CREDIT_CARD_RE = True
+        self.MASK_UUID = True
+        self.MASK_EMAIL_ADDRESS_RE = True
+        self.MASK_US_SSN_RE = True
+        self.MASK_URL = True
+        self.MASK_COMPANY = True
         
 if __name__ == '__main__':
     # Usage
-    config = Config(location=True)
+    config = Config(MASK_LOCATION=True)
     helper = AIwallHelper(config)
     from IPython import embed; embed()    
 
