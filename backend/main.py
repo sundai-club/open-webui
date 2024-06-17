@@ -509,19 +509,15 @@ class AIwallMiddleware(BaseHTTPMiddleware):
             )
             prompt = get_last_user_message(data["messages"])
             
-            ## Modify the prompt
+            ## Modify the messages
             for message in reversed(data["messages"]):
                 if message["role"] == "user":
                     if isinstance(message["content"], list):
                         for item in message["content"]:
                             if item["type"] == "text":
-                                return item["text"]
-                    
-                    print ("Initial prompt: ", message["content"])
+                                item["text"] = self.aiwallhelper.anonymize(message["content"])
                     message["content"] = self.aiwallhelper.anonymize(message["content"])
                     # message["content"] = message["content"].replace("MIT", "Hogwarts")
-                    print ("Modified prompt: ", message["content"])
-                    break
         
             modified_body_bytes = json.dumps(data).encode("utf-8")
 
