@@ -61,11 +61,11 @@
 		{#if adminConfig !== null}
 			<div>
 				<div class=" mb-3 text-sm font-medium">{$i18n.t('Mask Settings')}</div>
-				<div class="  flex w-full justify-between pr-2">
+				<!-- <div class="  flex w-full justify-between pr-2">
 					<div class=" self-center text-xs font-medium">{$i18n.t('Mask Name?')}</div>
 		
 					<Switch bind:state={adminConfig.MASK_NAME} />
-				</div>
+				</div> -->
 				<div class="  flex w-full justify-between pr-2">
 					<div class=" self-center text-xs font-medium">{$i18n.t('Mask Company?')}</div>
 		
@@ -75,6 +75,62 @@
 					<div class=" self-center text-xs font-medium">{$i18n.t('Mask Location?')}</div>
 		
 					<Switch bind:state={adminConfig.MASK_LOCATION} />
+				</div>
+				<div class="flex w-full justify-between pr-2">
+					<div class="self-center text-xs font-medium">{$i18n.t('Mask Credit Card?')}</div>
+					<Switch bind:state={adminConfig.MASK_CREDIT_CARD} />
+				</div>
+				<div class="flex w-full justify-between pr-2">
+					<div class="self-center text-xs font-medium">{$i18n.t('Mask Crypto?')}</div>
+					<Switch bind:state={adminConfig.MASK_CRYPTO} />
+				</div>
+				<div class="flex w-full justify-between pr-2">
+					<div class="self-center text-xs font-medium">{$i18n.t('Mask Email Address?')}</div>
+					<Switch bind:state={adminConfig.MASK_EMAIL_ADDRESS} />
+				</div>
+				<div class="flex w-full justify-between pr-2">
+					<div class="self-center text-xs font-medium">{$i18n.t('Mask IBAN Code?')}</div>
+					<Switch bind:state={adminConfig.MASK_IBAN_CODE} />
+				</div>
+				<div class="flex w-full justify-between pr-2">
+					<div class="self-center text-xs font-medium">{$i18n.t('Mask IP Address?')}</div>
+					<Switch bind:state={adminConfig.MASK_IP_ADDRESS} />
+				</div>
+				<div class="flex w-full justify-between pr-2">
+					<div class="self-center text-xs font-medium">{$i18n.t('Mask Person?')}</div>
+					<Switch bind:state={adminConfig.MASK_PERSON} />
+				</div>
+				<div class="flex w-full justify-between pr-2">
+					<div class="self-center text-xs font-medium">{$i18n.t('Mask Phone Number?')}</div>
+					<Switch bind:state={adminConfig.MASK_PHONE_NUMBER} />
+				</div>
+				<div class="flex w-full justify-between pr-2">
+					<div class="self-center text-xs font-medium">{$i18n.t('Mask US SSN?')}</div>
+					<Switch bind:state={adminConfig.MASK_US_SSN} />
+				</div>
+				<div class="flex w-full justify-between pr-2">
+					<div class="self-center text-xs font-medium">{$i18n.t('Mask US Bank Number?')}</div>
+					<Switch bind:state={adminConfig.MASK_US_BANK_NUMBER} />
+				</div>
+				<div class="flex w-full justify-between pr-2">
+					<div class="self-center text-xs font-medium">{$i18n.t('Mask Credit Card RE?')}</div>
+					<Switch bind:state={adminConfig.MASK_CREDIT_CARD_RE} />
+				</div>
+				<div class="flex w-full justify-between pr-2">
+					<div class="self-center text-xs font-medium">{$i18n.t('Mask UUID?')}</div>
+					<Switch bind:state={adminConfig.MASK_UUID} />
+				</div>
+				<div class="flex w-full justify-between pr-2">
+					<div class="self-center text-xs font-medium">{$i18n.t('Mask Email Address RE?')}</div>
+					<Switch bind:state={adminConfig.MASK_EMAIL_ADDRESS_RE} />
+				</div>
+				<div class="flex w-full justify-between pr-2">
+					<div class="self-center text-xs font-medium">{$i18n.t('Mask US SSN RE?')}</div>
+					<Switch bind:state={adminConfig.MASK_US_SSN_RE} />
+				</div>
+				<div class="flex w-full justify-between pr-2">
+					<div class="self-center text-xs font-medium">{$i18n.t('Mask URL?')}</div>
+					<Switch bind:state={adminConfig.MASK_URL} />
 				</div>
 
 				<div class=" mb-3 text-sm font-medium">{$i18n.t('General Settings')}</div>
