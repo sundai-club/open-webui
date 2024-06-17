@@ -32,6 +32,8 @@ class AIwallHelper:
                                          "UUID",
                                          "EMAIL_ADDRESS_RE",
                                          "US_SSN_RE",
+                                         "URL",
+                                         "ORGANIZATION",
                                      ],
                 "DEFAULT_MODEL": Model(
                     path="dslim/bert-large-NER",
@@ -81,6 +83,8 @@ class AIwallHelper:
                                          "UUID",
                                          "EMAIL_ADDRESS_RE",
                                          "US_SSN_RE",
+                                         "URL",
+                                         "ORGANIZATION",
                                      ],
                                      allowed_names=["John Doe"],
                                      recognizer_conf=NER_CONF, language="en")
@@ -105,6 +109,7 @@ class AIwallHelper:
 if __name__ == '__main__':
     # Usage
     helper = AIwallHelper()
+    from IPython import embed; embed()
 
     # fails to locate street and town
     anonymized_prompt = helper.anonymize("Your input string here: my location is 32 vernon street, brookline MA")
@@ -113,5 +118,8 @@ if __name__ == '__main__':
     # succeeds to locate street and town 
     anonymized_prompt = helper.anonymize("Your input string here: my location is 32 Vernon Street, Brookline MA")
     print(anonymized_prompt)
-    deanonymized_output = helper.deanonymize(anonymized_prompt, "Your answer string here")
+    # works 
+    deanonymized_output = helper.deanonymize(anonymized_prompt, "Your answer string here: [REDACTED_LOCATION_1] and then [REDACTED_LOCATION_2]")
+    # doesn't work 
+    deanonymized_output = helper.deanonymize(anonymized_prompt, "Your answer string here: REDACTED_LOCATION_1 and then REDACTED_LOCATION_2")
     anonymized_sundai = helper.anonymize_sundai("Your sundai prompt here")
