@@ -8,9 +8,14 @@ from config import PersistentConfig
 
 
 class AIwallHelper:
-    def __init__(self):
+    def __init__(self,PersistentConfig):
         self.vault = Vault()
-        self.config = dict[str, PersistentConfig]
+        
+        if isinstance(PersistentConfig,Config):
+            # for debug - i.e. if config is manually instantiated in this file inside __main__
+            self.config = PersistentConfig
+        else:
+            self.config = dict[str, PersistentConfig]
         self.entities = {
                     "LOCATION":self.config.location,
                     "DATE_TIME":False,
@@ -30,33 +35,16 @@ class AIwallHelper:
                     "URL":False,
                     "ORGANIZATION":self.config.location
                     }
-        self.anonymize = self.Anonymize(self.vault)
+        self.entities_list = [key for key, value in self.entities.items() if value]
+        self.anonymize = self.Anonymize(self.vault, self.entities_list)
         self.deanonymize = self.Deanonymize(self.vault)
 
     class Anonymize:
-        def __init__(self, vault):
+        def __init__(self, vault, entities_list):
             self.vault = vault
 
             NER_CONF = {
-                "PRESIDIO_SUPPORTED_ENTITIES": [
-                                         "LOCATION",
-                                         "DATE_TIME",
-                                         "CREDIT_CARD",
-                                         "CRYPTO",
-                                         "EMAIL_ADDRESS",
-                                         "IBAN_CODE",
-                                         "IP_ADDRESS",
-                                         "PERSON",
-                                         "PHONE_NUMBER",
-                                         "US_SSN",
-                                         "US_BANK_NUMBER",
-                                         "CREDIT_CARD_RE",
-                                         "UUID",
-                                         "EMAIL_ADDRESS_RE",
-                                         "US_SSN_RE",
-                                         "URL",
-                                         "ORGANIZATION",
-                                     ],
+                "PRESIDIO_SUPPORTED_ENTITIES": entities_list,
                 "DEFAULT_MODEL": Model(
                     path="dslim/bert-large-NER",
                     revision="13e784dccceca07aee7a7aab4ad487c605975423",
@@ -89,25 +77,7 @@ class AIwallHelper:
             }
 
             self.scanner = Anonymize(self.vault, preamble="",
-                                     entity_types=[
-                                         "LOCATION",
-                                         "DATE_TIME",
-                                         "CREDIT_CARD",
-                                         "CRYPTO",
-                                         "EMAIL_ADDRESS",
-                                         "IBAN_CODE",
-                                         "IP_ADDRESS",
-                                         "PERSON",
-                                         "PHONE_NUMBER",
-                                         "US_SSN",
-                                         "US_BANK_NUMBER",
-                                         "CREDIT_CARD_RE",
-                                         "UUID",
-                                         "EMAIL_ADDRESS_RE",
-                                         "US_SSN_RE",
-                                         "URL",
-                                         "ORGANIZATION",
-                                     ],
+                                     entity_types=entities_list,
                                      allowed_names=["John Doe"],
                                      recognizer_conf=NER_CONF, language="en")
 
@@ -127,10 +97,31 @@ class AIwallHelper:
     def anonymize_sundai(self, prompt: str):
         return self.anonymize(prompt)
 
-
+class Config:
+    # used for  running debug 
+    def __init__(self, location):
+        self.location = location
+        self.date_time = True
+        self.credit_card = True
+        self.crypto = True
+        self.email_address = True
+        self.iban_code = True
+        self.ip_address = True
+        self.person = True
+        self.phone_number = True
+        self.us_ssn = True
+        self.us_bank_number = True
+        self.credit_card_re = True
+        self.uuid = True
+        self.email_address_re = True
+        self.us_ssn_re = True
+        self.url = True
+        self.organization = True
+        
 if __name__ == '__main__':
     # Usage
-    helper = AIwallHelper()
+    config = Config(location=True)
+    helper = AIwallHelper(config)
     from IPython import embed; embed()    
 
 
